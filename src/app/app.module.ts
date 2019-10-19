@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {AuthService} from './services/auth.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthGuard } from './services/auth-guard.service';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -19,10 +20,10 @@ import { HttpClientModule } from '@angular/common/http';
         name: 'SAT', // nom bdd
         driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
-    ReactiveFormsModule,//pour les forms
-    HttpClientModule,
+    ReactiveFormsModule,//pour les forms ne pas oublier de l importer sur les modules des pages
     FormsModule,//pour les forms 
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule
   ],
@@ -30,7 +31,8 @@ import { HttpClientModule } from '@angular/common/http';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AuthService
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

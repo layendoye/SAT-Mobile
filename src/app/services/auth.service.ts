@@ -6,9 +6,22 @@ import {Storage} from '@ionic/storage';
   providedIn: 'root'
 })
 export class AuthService {
+  public token: string;
+  guichetier;
+  admin;
+  user={
+    id:0,
+    username:'',
+    roles:[],
+    idEntreprise:0,
+    image:'',
+    guichetier:false
+  }
+  private headers={headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)};
+  private urlBack='http://127.0.0.1:8000';
   jwtHelper = new JwtHelperService;
   public authenticate: boolean;
-  public token: string;
+  
   constructor(private httpClient: HttpClient,private storage: Storage) { }
   login(username:string,password:string){//ne pas factoriser
     const data={
@@ -21,11 +34,15 @@ export class AuthService {
         .post<any>('http://127.0.0.1:8000/connexion',data)
         .subscribe(
           (rep)=>{
-            console.log(rep)
-            localStorage.setItem('token', rep.token);
-            const tokenDeco=this.jwtHelper.decodeToken(rep.token);
-            localStorage.setItem('username', tokenDeco.username);
-            localStorage.setItem('roles', tokenDeco.roles);
+            this.token = rep.token
+            this.storage.set('token', this.token);
+            const tokenDeco=this.jwtHelper.decodeToken(this.token);
+            this.storage.set('username', tokenDeco.username);
+            this.user.username=tokenDeco.username;
+            this.storage.set('roles', tokenDeco.roles);
+            this.user.roles=tokenDeco.roles;
+            this.getUserConnecte();
+            this.Poste();
             this.authenticate = true;
             resolve();
           },
@@ -37,8 +54,7 @@ export class AuthService {
       })
   }
   public loadToken() {
-    this.token = localStorage.getItem('token');
-    console.log(this.token);
+    this.storage.get('token').then(token=>this.token = token);
     if (this.token) {
       this.authenticate = true;
     } else {
@@ -47,6 +63,39 @@ export class AuthService {
     return this.authenticate;
   }
   logout() {
-    localStorage.clear();
+    this.storage.remove("token");
+    this.storage.remove("username");
+    this.storage.remove("roles");
+    this.storage.remove("idEntreprise");
+    this.storage.remove("idUser");
+    this.storage.remove("image");
+  }
+  getUserConnecte(){
+    this.httpClient
+      .get<any>(this.urlBack+'/userConnecte',{headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)})
+      .subscribe(
+        (rep)=>{
+          this.storage.set("idEntreprise",rep.entreprise.id);
+          this.user.idEntreprise=rep.entreprise.id;
+          this.storage.set("idUser",rep.id);
+          this.user.id=rep.id;
+          const roles=this.storage.get("roles");
+          this.storage.set("image",rep.image);
+          this.user.image=rep.image;
+        },
+        (error)=>{
+          console.log('Erreur : '+error.message);
+          
+        }
+      );
+  }
+  Poste(){
+    this.storage.get('roles').then(
+      roles=>{
+        if(roles[0].search('ROLE_utilisateur')>=0){
+          this.user.guichetier=true;
+        }
+      }
+    )
   }
 }

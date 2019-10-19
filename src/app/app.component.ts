@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +15,11 @@ import { Router } from '@angular/router';
 export class AppComponent {
   public appPages = [
     {title: 'Home', url: '/home', icon: 'home'},
-    {title: 'List', url: '/list', icon: 'list'},
+    {title: 'Historique', url: '/list', icon: 'list'},
     {title: 'Déconnexion', url: '/login', icon: 'log-out'}
   ];
   authenticated;
+  jwtHelper = new JwtHelperService();
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -33,14 +35,22 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.login();
+      this.tokenExpire();
     });
   }
-    private login(){
+  private login(){
     this.authenticated=this.authService.loadToken();
     if(this.authenticated){
-      this.router.navigateByUrl("/home");
+      this.router.navigateByUrl("/list");
     }
     else
       this.router.navigateByUrl("/login");
+  }
+  tokenExpire(){
+    const token=this.authService.token;
+    if( this.authenticated && this.jwtHelper.isTokenExpired(token)){
+      this.authService.logout();
+      window.location.reload();
+    }
   }
 }

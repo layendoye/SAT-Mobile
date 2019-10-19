@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
   onLogin(value:any){
     let res=this.authService.login(value.username,value.password).then(
       res => {
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/list');
       },
       error => {
         console.log(error.error)
@@ -30,7 +30,6 @@ export class LoginPage implements OnInit {
         else if(error.error.status===403){
           this.errorLogin(error.error.message);
         }
-        
       }
     );
   }
