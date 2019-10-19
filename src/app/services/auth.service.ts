@@ -7,7 +7,7 @@ import {Storage} from '@ionic/storage';
 })
 export class AuthService {
   public token: string;
-  guichetier;
+  guichetier=false;
   admin;
   user={
     id:0,
@@ -54,14 +54,16 @@ export class AuthService {
       })
   }
   public loadToken() {
-    this.storage.get('token').then(token=>this.token = token);
-    if (this.token) {
-      this.authenticate = true;
-    } else {
-      this.authenticate = false;
-    }
-    return this.authenticate;
+  this.storage.get('token').then(token=>{this.token = token
+      if (this.token) {
+        this.authenticate = true;
+      } else {
+        this.authenticate = false;
+      }
+      return this.authenticate;
+    });
   }
+  
   logout() {
     this.storage.remove("token");
     this.storage.remove("username");
@@ -94,6 +96,9 @@ export class AuthService {
       roles=>{
         if(roles[0].search('ROLE_utilisateur')>=0){
           this.user.guichetier=true;
+        }
+        else{
+          this.user.guichetier=false;
         }
       }
     )

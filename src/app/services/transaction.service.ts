@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,8 +8,10 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 export class TransactionService {
   private headers={headers: new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem('token'))};
   private urlBack='http://127.0.0.1:8000';
-
-  constructor(private httpClient: HttpClient) { }
+  token
+  constructor(private httpClient: HttpClient,private authService:AuthService) { 
+    
+  }
   envois(data:any){
     return this.postElement(data,"/transation/envoie");
   }
@@ -32,7 +35,7 @@ export class TransactionService {
       dateDebut:data.dateDebut,
       dateFin:data.dateFin
     }
-    const idEntrep=localStorage.getItem("idEntreprise");
+    const idEntrep=this.authService.user.idEntreprise;
     if(idUser==0)//toutes les transactions
       return this.postElement(data,"/transation/partenaire/"+action+"/"+idEntrep);
     else if(idUser>0)
@@ -40,12 +43,15 @@ export class TransactionService {
     else
     return this.postElement(data,"/transations/partenaires/"+action);
   }
-
+  getUserAffectation(){
+    return this.getElement('/lister/users/all');
+  }
   postElement(data:any,url:string){//return une promise
+    this.token=this.authService.token;
     return new Promise<any>(
       (resolve,reject)=>{
       this.httpClient
-        .post<any>(this.urlBack+url,data,this.headers).subscribe(
+        .post<any>(this.urlBack+url,data,{headers: new HttpHeaders().set('Authorization', 'Bearer ' +  this.token)}).subscribe(
           rep=>{
           resolve(rep);
           },
@@ -58,10 +64,11 @@ export class TransactionService {
       })
   }
   getElement(url:string){
+    this.token=this.authService.token;
     return new Promise<any>(
       (resolve,reject)=>{
       this.httpClient
-        .get<any>(this.urlBack+url,this.headers).subscribe(
+        .get<any>(this.urlBack+url,{headers: new HttpHeaders().set('Authorization', 'Bearer ' +  this.token)}).subscribe(
           rep=>{
             resolve(rep);
           },

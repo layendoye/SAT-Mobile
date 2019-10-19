@@ -12,6 +12,7 @@ import {AuthService} from './services/auth.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './services/auth-guard.service';
+import { TransactionService } from './services/transaction.service';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -32,7 +33,8 @@ import { AuthGuard } from './services/auth-guard.service';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
-    AuthGuard
+    AuthGuard,
+    TransactionService
   ],
   bootstrap: [AppComponent]
 })
