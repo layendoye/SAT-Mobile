@@ -3,10 +3,49 @@
         <ion-buttons slot="start" (click)="onReturn()">
             <ion-icon name="md-arrow-back"></ion-icon>
         </ion-buttons>
-        <ion-title>listDetails</ion-title>
+        <ion-title class="ion-text-center">Details</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+    <ion-card>
+        <ion-card-content>
+            <ion-list *ngIf="transaction">
+                <ion-item>
+                    <ion-label><strong>Emetteur :</strong></ion-label>
+                    <ion-label>{{transaction.nomClientEmetteur}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label><strong>Téléphone :</strong></ion-label>
+                    <ion-label>{{transaction.telephoneEmetteur}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label><strong>Recepteur :</strong></ion-label>
+                    <ion-label>{{transaction.nomClientRecepteur}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label><strong>Téléphone :</strong></ion-label>
+                    <ion-label>{{transaction.telephoneRecepteur}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label><strong>Montant :</strong></ion-label>
+                    <ion-label>{{transaction.montant | number:'0.0'}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label><strong>Commission :</strong></ion-label>
+                    <ion-label *ngIf="transaction.commissionEmetteur">{{transaction.commissionEmetteur | number:'0.0'}}</ion-label>
+                    <ion-label *ngIf="transaction.commissionRecepteur">{{transaction.commissionRecepteur | number:'0.0'}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label><strong>Date :</strong></ion-label>
+                    <ion-label *ngIf="transaction.dateEnvoi">{{transaction.dateEnvoi | date:'dd-MM-yyyy'}}</ion-label>
+                    <ion-label *ngIf="transaction.dateReception">{{transaction.dateReception | date:'dd-MM-yyyy'}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label><strong>Code : </strong> </ion-label>
+                    <ion-text>{{transaction.code}}</ion-text>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

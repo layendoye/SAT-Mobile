@@ -7,7 +7,8 @@ import { AuthService } from './auth.service';
 })
 export class TransactionService {
   private urlBack='http://127.0.0.1:8000';
-  token
+  token:string;
+  detailsTransaction:any;
   constructor(private httpClient: HttpClient,private authService:AuthService) { 
     
   }

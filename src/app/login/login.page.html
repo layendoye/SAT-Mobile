@@ -1,19 +1,29 @@
 <ion-header>
-    <ion-toolbar color="danger">
-        <ion-title>Authentification</ion-title>
+    <ion-toolbar color="danger" *ngIf="!isLoading">
+        <ion-title class="ion-text-center">Authentification</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <form #f="ngForm" (ngSubmit)="onLogin(f.value)">
-        <ion-item>
-            <ion-label position="floating">Login</ion-label>
-            <ion-input type="text" name="username" ngModel></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label position="floating">Mot de passe</ion-label>
-            <ion-input type="password" name="password" ngModel></ion-input>
-        </ion-item>
-        <ion-button type="submit" expand="block" fill="outline" class="btnLogin">Login</ion-button>
-    </form>
+    <ion-card class="loginForm" *ngIf="!isLoading">
+        <ion-card-content>
+            <form #f="ngForm" (ngSubmit)="onLogin(f.value)">
+                <ion-item>
+                    <ion-label position="floating">Login</ion-label>
+                    <ion-input type="text" name="username" ngModel></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Mot de passe</ion-label>
+                    <ion-input type="password" name="password" ngModel></ion-input>
+                </ion-item>
+                <ion-button type="submit" expand="block" fill="outline" class="btnLogin">Login</ion-button>
+            </form>
+        </ion-card-content>
+    </ion-card>
+    <ion-grid class="loading ion-text-center" *ngIf="isLoading">
+        <ion-img src="assets/img/logo2.png"></ion-img>
+        <ion-label>
+            <ion-spinner></ion-spinner>
+        </ion-label>
+    </ion-grid>
 </ion-content>

@@ -119,8 +119,8 @@ export class ListPage implements OnInit {
   }
   onDetails(transaction: string, slidingItem: IonItemSliding) {
     slidingItem.close();
-    this.router.navigate(['/list-details']);
     console.log(transaction)
-    this.listDetails=transaction;
+    this.transactionService.detailsTransaction=transaction;
+    this.router.navigate(['/list-details']);
   }
 }

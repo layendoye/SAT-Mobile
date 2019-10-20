@@ -14,7 +14,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuard } from './services/auth-guard.service';
 import { TransactionService } from './services/transaction.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
-import {ListPage} from './list/list.page';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -37,7 +36,6 @@ import {ListPage} from './list/list.page';
     AuthService,
     AuthGuard,
     TransactionService,
-    ListPage,
   {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,

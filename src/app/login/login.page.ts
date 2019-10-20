@@ -9,7 +9,7 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  errorMessage;
+  isLoading=false;
   constructor(private router: Router,
               private authService: AuthService,
               private alertCtrl: AlertController) { }
@@ -18,14 +18,18 @@ export class LoginPage implements OnInit {
     this.authService.logout();
   }
   onLogin(value:any){
+    this.isLoading=true;
     let res=this.authService.login(value.username,value.password).then(
       res => {
-          if(!this.authService.user.accessDenied)
-            this.router.navigateByUrl('/list');
-          else
-            this.errorLogin("Veuillez utiliser l'application web !");
+        setTimeout(()=>{},1500)
+        if(!this.authService.user.accessDenied)
+          this.router.navigateByUrl('/list');
+        else
+          this.errorLogin("Veuillez utiliser l'application web !");
+        this.isLoading=false;
       },
       error => {
+         this.isLoading=false;
         console.log(error.error)
         if(error.error.code===401){
           this.errorLogin('Erreur sur le login ou le mot de passe');

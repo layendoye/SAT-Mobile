@@ -3,63 +3,65 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Transactions</ion-title>
+        <ion-title class="ion-text-center">Transactions</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="afficher" class="ion-padding">
-    <form [formGroup]="histoForm" (ngSubmit)="onSubmit(2)">
-        <ion-list>
-            <ion-item>
-                <ion-label><strong>Date de début:</strong></ion-label>
-                <ion-datetime display-format="DD MMM YYYY" picker-format="DD MMM YYYY" formControlName="dateDebut" (ionChange)="onSubmit(1)"></ion-datetime>
-            </ion-item>
-            <ion-item>
-                <ion-label><strong>Date de fin :</strong></ion-label>
-                <ion-datetime display-format="DD MMM YYYY" picker-format="DD MMM YYYY" formControlName="dateFin" (ionChange)="onSubmit(2)"></ion-datetime>
-            </ion-item>
+<ion-content *ngIf="afficher">
+    <ion-card>
+        <ion-card-content>
+            <form [formGroup]="histoForm" (ngSubmit)="onSubmit(2)">
+                <ion-list>
+                    <ion-item>
+                        <ion-label><strong>Début:</strong></ion-label>
+                        <ion-datetime display-format="DD MMM YYYY" picker-format="DD MMM YYYY" formControlName="dateDebut" (ionChange)="onSubmit(1)"></ion-datetime>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label><strong>Fin :</strong></ion-label>
+                        <ion-datetime display-format="DD MMM YYYY" picker-format="DD MMM YYYY" formControlName="dateFin" (ionChange)="onSubmit(2)"></ion-datetime>
+                    </ion-item>
 
-            <ion-item [hidden]="histoGuichetier">
-                <ion-label size="4"><strong>Utilisateur : </strong> </ion-label>
-                <ion-select formControlName="idUser" (ionChange)="onSubmit(1)">
-                    <ion-select-option value="0">Tous les utilisateurs</ion-select-option>
-                    <ion-select-option *ngFor="let user of users" value="{{user.id}}">{{user.nom}}</ion-select-option>
-                </ion-select>
-            </ion-item>
+                    <ion-item [hidden]="histoGuichetier">
+                        <ion-label><strong>Utilisateur : </strong> </ion-label>
+                        <ion-select formControlName="idUser" (ionChange)="onSubmit(1)">
+                            <ion-select-option value="0">Tous les utilisateurs</ion-select-option>
+                            <ion-select-option *ngFor="let user of users" value="{{user.id}}">{{user.nom}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
 
-            <ion-item>
-                <ion-label><strong>Opération : </strong> </ion-label>
-                <ion-select formControlName="action" (ionChange)="onSubmit(1)">
-                    <ion-select-option value="envois">Envois</ion-select-option>
-                    <ion-select-option value="retraits">Retraits</ion-select-option>
-                </ion-select>
-            </ion-item>
-            <ion-col size="8" offset="2">
-                <ion-button type="submit" expand="block" fill="outline">Afficher</ion-button>
-            </ion-col>
+                    <ion-item>
+                        <ion-label><strong>Opération : </strong> </ion-label>
+                        <ion-select formControlName="action" (ionChange)="onSubmit(1)">
+                            <ion-select-option value="envois">Envois</ion-select-option>
+                            <ion-select-option value="retraits">Retraits</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-col size="8" offset="2">
+                        <ion-button type="submit" expand="block" fill="outline">Afficher</ion-button>
+                    </ion-col>
 
-        </ion-list>
-    </form>
-
-    <ion-grid *ngIf="afficherEnvois || afficherRetraits">
-        <ion-list>
-            <ion-item>
-                <ion-label class="ion-text-center"><strong>Date</strong></ion-label>
-                <ion-label class="ion-text-center"><strong>Montant</strong></ion-label>
-            </ion-item>
-            <ion-item-sliding *ngFor="let transaction of transactions" #slidingItem>
-                <ion-item>
-                    <ion-label *ngIf="afficherEnvois" class="ion-text-center">{{transaction.dateEnvoi | date:'dd-MM-yyyy'}}</ion-label>
-                    <ion-label *ngIf="afficherRetraits" class="ion-text-center">{{transaction.dateReception | date:'dd-MM-yyyy'}}</ion-label>
-                    <ion-label class="ion-text-center">{{transaction.montant | number:'0.0'}}</ion-label>
-                </ion-item>
-                <ion-item-options side="end">
-                    <ion-item-option color="secondary" (click)="onDetails(transaction, slidingItem)">
-                        <ion-icon name="eye" slot="icon-only"></ion-icon>
-                    </ion-item-option>
-                </ion-item-options>
-            </ion-item-sliding>
-        </ion-list>
-    </ion-grid>
-
+                </ion-list>
+            </form>
+            <ion-grid *ngIf="afficherEnvois || afficherRetraits">
+                <ion-list>
+                    <ion-item>
+                        <ion-label class="ion-text-center"><strong>Date</strong></ion-label>
+                        <ion-label class="ion-text-center"><strong>Montant</strong></ion-label>
+                    </ion-item>
+                    <ion-item-sliding *ngFor="let transaction of transactions" #slidingItem>
+                        <ion-item>
+                            <ion-label *ngIf="afficherEnvois" class="ion-text-center">{{transaction.dateEnvoi | date:'dd-MM-yyyy'}}</ion-label>
+                            <ion-label *ngIf="afficherRetraits" class="ion-text-center">{{transaction.dateReception | date:'dd-MM-yyyy'}}</ion-label>
+                            <ion-label class="ion-text-center">{{transaction.montant | number:'0.0'}}</ion-label>
+                        </ion-item>
+                        <ion-item-options side="end">
+                            <ion-item-option color="secondary" (click)="onDetails(transaction, slidingItem)">
+                                <ion-icon name="eye" slot="icon-only"></ion-icon>
+                            </ion-item-option>
+                        </ion-item-options>
+                    </ion-item-sliding>
+                </ion-list>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
 </ion-content>
