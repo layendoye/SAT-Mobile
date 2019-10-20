@@ -17,7 +17,6 @@ export class AuthService {
     image:'',
     guichetier:false
   }
-  private headers={headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)};
   private urlBack='http://127.0.0.1:8000';
   jwtHelper = new JwtHelperService;
   public authenticate: boolean;
@@ -74,7 +73,7 @@ export class AuthService {
   }
   getUserConnecte(){
     this.httpClient
-      .get<any>(this.urlBack+'/userConnecte',{headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)})
+      .get<any>(this.urlBack+'/userConnecte')
       .subscribe(
         (rep)=>{
           this.storage.set("idEntreprise",rep.entreprise.id);

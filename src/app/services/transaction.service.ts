@@ -6,7 +6,6 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class TransactionService {
-  private headers={headers: new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem('token'))};
   private urlBack='http://127.0.0.1:8000';
   token
   constructor(private httpClient: HttpClient,private authService:AuthService) { 
@@ -51,7 +50,7 @@ export class TransactionService {
     return new Promise<any>(
       (resolve,reject)=>{
       this.httpClient
-        .post<any>(this.urlBack+url,data,{headers: new HttpHeaders().set('Authorization', 'Bearer ' +  this.token)}).subscribe(
+        .post<any>(this.urlBack+url,data).subscribe(
           rep=>{
           resolve(rep);
           },
@@ -68,7 +67,7 @@ export class TransactionService {
     return new Promise<any>(
       (resolve,reject)=>{
       this.httpClient
-        .get<any>(this.urlBack+url,{headers: new HttpHeaders().set('Authorization', 'Bearer ' +  this.token)}).subscribe(
+        .get<any>(this.urlBack+url).subscribe(
           rep=>{
             resolve(rep);
           },
