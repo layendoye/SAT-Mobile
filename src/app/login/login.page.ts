@@ -20,7 +20,10 @@ export class LoginPage implements OnInit {
   onLogin(value:any){
     let res=this.authService.login(value.username,value.password).then(
       res => {
-        this.router.navigateByUrl('/list');
+          if(!this.authService.user.accessDenied)
+            this.router.navigateByUrl('/list');
+          else
+            this.errorLogin("Veuillez utiliser l'application web !");
       },
       error => {
         console.log(error.error)

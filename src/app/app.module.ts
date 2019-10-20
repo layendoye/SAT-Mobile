@@ -20,7 +20,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
   entryComponents: [],
   imports: [
     IonicStorageModule.forRoot({
-        name: 'SAT', // nom bdd
+        name: 'SATDB', // nom bdd
         driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
     ReactiveFormsModule,//pour les forms ne pas oublier de l importer sur les modules des pages
@@ -37,6 +37,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     AuthService,
     AuthGuard,
     TransactionService,
+    AppComponent,
   {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
