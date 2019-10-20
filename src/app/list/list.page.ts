@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Storage } from '@ionic/storage';
 import { TransactionService } from '../services/transaction.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, IonItemSliding } from '@ionic/angular';
 
 @Component({
   selector: 'app-list',
@@ -117,5 +117,10 @@ export class ListPage implements OnInit {
       buttons: [{text: 'Ok'}]
     });
     await alert.present();
+  }
+  onDetails(offerId: string, slidingItem: IonItemSliding) {
+    slidingItem.close();
+    this.router.navigate(['/', offerId]);
+    console.log('Editing item', offerId);
   }
 }
