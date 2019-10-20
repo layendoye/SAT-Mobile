@@ -18,7 +18,7 @@ export class AppComponent implements OnInit{
     {title: 'Historique', url: '/list', icon: 'list'},
     {title: 'Déconnexion', url: '/login', icon: 'log-out'}
   ];
-  authenticated=true;
+  authenticated=false;
   jwtHelper = new JwtHelperService();
   constructor(
     private platform: Platform,
@@ -29,21 +29,16 @@ export class AppComponent implements OnInit{
   ) {
     this.initializeApp();
   }
-   ngOnInit() {
-    this.login();
-    this.tokenExpire();
-  }
+  ngOnInit(){}
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.login();
-      this.tokenExpire();
     });
   }
   private login(){
-    this.authenticated=this.authService.authenticate;
     console.log(this.authenticated)
     if(this.authenticated){
       this.router.navigateByUrl("/list");
@@ -55,7 +50,19 @@ export class AppComponent implements OnInit{
     const token=this.authService.token;
     if( this.authenticated && this.jwtHelper.isTokenExpired(token)){
       this.authService.logout();
-      window.location.reload();
+      this.router.navigateByUrl("/login");
     }
+  }
+  onMenuItem(m) {
+    this.authenticated=this.authService.authenticate;
+    this.tokenExpire();
+    console.log(this.authenticated)
+    if (m.url === '/login') {
+      this.authService.logout();
+    } 
+    /*else if (m.url === 'Exit') {
+      navigator['app'].exitApp();
+    }*/
+    this.router.navigateByUrl(m.url);
   }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Storage } from '@ionic/storage';
 import { TransactionService } from '../services/transaction.service';
 import { AlertController, IonItemSliding } from '@ionic/angular';
 
@@ -18,7 +17,7 @@ export class ListPage implements OnInit {
   users:any[]=[];
   errorDate:string;
   lesDeux:boolean=false;
-
+  listDetails:any;
   afficherEnvois:boolean=false;
   afficherRetraits:boolean=false;
 
@@ -118,8 +117,10 @@ export class ListPage implements OnInit {
     });
     await alert.present();
   }
-  onDetails(id: string, slidingItem: IonItemSliding) {
+  onDetails(transaction: string, slidingItem: IonItemSliding) {
     slidingItem.close();
-    //this.router.navigate(['/', offerId]);
+    this.router.navigate(['/list-details']);
+    console.log(transaction)
+    this.listDetails=transaction;
   }
 }
