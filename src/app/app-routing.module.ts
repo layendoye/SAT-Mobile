@@ -7,7 +7,8 @@ const routes: Routes = [
   { path: 'home',canActivate:[AuthGuard],loadChildren: () => import('./home/home.module').then(m => m.HomePageModule) },
   { path: 'list',canActivate:[AuthGuard],loadChildren: () => import('./list/list.module').then(m => m.ListPageModule) },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'list-details',canActivate:[AuthGuard], loadChildren: './list/list-details/list-details.module#ListDetailsPageModule' }
+  { path: 'list-details', canActivate:[AuthGuard], loadChildren: './list/list-details/list-details.module#ListDetailsPageModule' },
+  { path: 'transaction', canActivate:[AuthGuard], loadChildren: './transaction/transaction.module#TransactionPageModule' }
 ];
 
 @NgModule({

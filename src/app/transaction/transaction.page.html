@@ -1,0 +1,66 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title class="ion-text-center">Transactions</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-card-content>
+            <ion-segment (ionChange)="onSwitch($event)">
+                <ion-segment-button value="envois" checked>Envoyer</ion-segment-button>
+                <ion-segment-button value="retrait">Retirer</ion-segment-button>
+            </ion-segment>
+            <form [formGroup]="sendForm" (ngSubmit)="onSubmit()">
+                <ion-list>
+
+                    <ion-item [hidden]="envois">
+                        <ion-label position="floating">Code de transaction</ion-label>
+                        <ion-input formControlName="code" (ionChange)="modifCode($event.target.value)"></ion-input>
+                    </ion-item>
+                    <ion-item [hidden]="envois">
+                        <ion-label position="floating">Numéro carte d'identité recepteur</ion-label>
+                        <ion-input formControlName="nciRecepteur"></ion-input>
+                    </ion-item>
+
+
+
+                    <ion-item [hidden]="!envois && !isTransaction">
+                        <ion-label position="floating">Nom de l'émetteur</ion-label>
+                        <ion-input formControlName="nomClientEmetteur" [attr.readOnly]="isTransaction"></ion-input>
+                    </ion-item>
+                    <ion-item [hidden]="!envois && !isTransaction">
+                        <ion-label position="floating">Téléphone de l'émetteur</ion-label>
+                        <ion-input formControlName="telephoneEmetteur" [attr.readOnly]="isTransaction"></ion-input>
+                    </ion-item>
+                    <ion-item [hidden]="!envois">
+                        <ion-label position="floating">Numéro carte d'identité</ion-label>
+                        <ion-input formControlName="nciEmetteur" [attr.readOnly]="isTransaction"></ion-input>
+                    </ion-item>
+                    <ion-item [hidden]="!envois && !isTransaction">
+                        <ion-label position="floating">Nom du recepteur</ion-label>
+                        <ion-input formControlName="nomClientRecepteur" [attr.readOnly]="isTransaction"></ion-input>
+                    </ion-item>
+                    <ion-item [hidden]="!envois && !isTransaction">
+                        <ion-label position="floating">Téléphone du recepteur</ion-label>
+                        <ion-input formControlName="telephoneRecepteur" [attr.readOnly]="isTransaction"></ion-input>
+                    </ion-item>
+                    <ion-item [hidden]="!envois && !isTransaction">
+                        <ion-label position="floating">Montant</ion-label>
+                        <ion-input formControlName="montant" [attr.readOnly]="isTransaction"></ion-input>
+                    </ion-item>
+
+
+
+
+                    <ion-col size="8" offset="2">
+                        <ion-button type="submit" expand="block" fill="outline" [disabled]="!envois && !isTransaction">Valider</ion-button>
+                    </ion-col>
+                </ion-list>
+            </form>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
