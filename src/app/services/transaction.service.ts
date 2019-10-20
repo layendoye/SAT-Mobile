@@ -15,6 +15,9 @@ export class TransactionService {
   envois(data:any){
     return this.postElement(data,"/transation/envoie");
   }
+  getFrais(data:any){
+    return this.postElement(data,"/frais");
+  }
   retrais(data:any){//dans ce data il y a les values du formulaire certains etaient juste pour etre afficher
     data={
       code:data.code,

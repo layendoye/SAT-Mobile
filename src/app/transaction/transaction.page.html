@@ -50,7 +50,11 @@
                     </ion-item>
                     <ion-item [hidden]="!envois && !isTransaction">
                         <ion-label position="floating">Montant</ion-label>
-                        <ion-input formControlName="montant" [attr.readOnly]="isTransaction"></ion-input>
+                        <ion-input formControlName="montant" [attr.readOnly]="isTransaction" (ionChange)="getFrais($event.target.value)"></ion-input>
+                    </ion-item>
+                    <ion-item [hidden]="!envois">
+                        <ion-label position="floating">Frais</ion-label>
+                        <ion-input formControlName="frais" readOnly></ion-input>
                     </ion-item>
 
 
