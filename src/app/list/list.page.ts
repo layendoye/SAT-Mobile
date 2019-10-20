@@ -118,9 +118,8 @@ export class ListPage implements OnInit {
     });
     await alert.present();
   }
-  onDetails(offerId: string, slidingItem: IonItemSliding) {
+  onDetails(id: string, slidingItem: IonItemSliding) {
     slidingItem.close();
-    this.router.navigate(['/', offerId]);
-    console.log('Editing item', offerId);
+    //this.router.navigate(['/', offerId]);
   }
 }
