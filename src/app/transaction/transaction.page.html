@@ -21,37 +21,98 @@
                         <ion-label position="floating">Code de transaction</ion-label>
                         <ion-input formControlName="code" (ionChange)="modifCode($event.target.value)"></ion-input>
                     </ion-item>
+                    <div class="validation-errors">
+                        <ng-container *ngFor="let validation of ValidationMsg.code">
+                            <div class="error-message" *ngIf="sendForm.get('code').hasError(validation.type) && (sendForm.get('code').touched)">
+                                <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                            </div>
+                        </ng-container>
+                    </div>
+
                     <ion-item [hidden]="envois">
                         <ion-label position="floating">Numéro carte d'identité recepteur</ion-label>
                         <ion-input formControlName="nciRecepteur"></ion-input>
                     </ion-item>
-
-
+                    <div class="validation-errors">
+                        <ng-container *ngFor="let validation of ValidationMsg.nciRecepteur">
+                            <div color="red" class="error-message" *ngIf="sendForm.get('nciRecepteur').hasError(validation.type) && (sendForm.get('nciRecepteur').touched)">
+                                <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                            </div>
+                        </ng-container>
+                    </div>
 
                     <ion-item [hidden]="!envois && !isTransaction">
                         <ion-label position="floating">Nom de l'émetteur</ion-label>
                         <ion-input formControlName="nomClientEmetteur" [attr.readOnly]="isTransaction"></ion-input>
                     </ion-item>
+                    <div class="validation-errors">
+                        <ng-container *ngFor="let validation of ValidationMsg.nomClientEmetteur">
+                            <div class="error-message" *ngIf="sendForm.get('nomClientEmetteur').hasError(validation.type) && (sendForm.get('nomClientEmetteur').touched)">
+                                <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                            </div>
+                        </ng-container>
+                    </div>
+
                     <ion-item [hidden]="!envois && !isTransaction">
                         <ion-label position="floating">Téléphone de l'émetteur</ion-label>
                         <ion-input formControlName="telephoneEmetteur" [attr.readOnly]="isTransaction"></ion-input>
                     </ion-item>
+                    <div class="validation-errors">
+                        <ng-container *ngFor="let validation of ValidationMsg.telephoneEmetteur">
+                            <div class="error-message" *ngIf="sendForm.get('telephoneEmetteur').hasError(validation.type) && (sendForm.get('telephoneEmetteur').touched)">
+                                <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                            </div>
+                        </ng-container>
+                    </div>
+
                     <ion-item [hidden]="!envois">
                         <ion-label position="floating">Numéro carte d'identité</ion-label>
                         <ion-input formControlName="nciEmetteur" [attr.readOnly]="isTransaction"></ion-input>
                     </ion-item>
+                    <div class="validation-errors">
+                        <ng-container *ngFor="let validation of ValidationMsg.nciEmetteur">
+                            <div class="error-message" *ngIf="sendForm.get('nciEmetteur').hasError(validation.type) && (sendForm.get('nciEmetteur').touched)">
+                                <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                            </div>
+                        </ng-container>
+                    </div>
+
                     <ion-item [hidden]="!envois && !isTransaction">
                         <ion-label position="floating">Nom du recepteur</ion-label>
                         <ion-input formControlName="nomClientRecepteur" [attr.readOnly]="isTransaction"></ion-input>
                     </ion-item>
+                    <div class="validation-errors">
+                        <ng-container *ngFor="let validation of ValidationMsg.code">
+                            <div class="error-message" *ngIf="sendForm.get('nomClientRecepteur').hasError(validation.type) && (sendForm.get('nomClientRecepteur').touched)">
+                                <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                            </div>
+                        </ng-container>
+                    </div>
+
                     <ion-item [hidden]="!envois && !isTransaction">
                         <ion-label position="floating">Téléphone du recepteur</ion-label>
                         <ion-input formControlName="telephoneRecepteur" [attr.readOnly]="isTransaction"></ion-input>
                     </ion-item>
+                    <div class="validation-errors">
+                        <ng-container *ngFor="let validation of ValidationMsg.telephoneRecepteur">
+                            <div class="error-message" *ngIf="sendForm.get('telephoneRecepteur').hasError(validation.type) && (sendForm.get('telephoneRecepteur').touched)">
+                                <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                            </div>
+                        </ng-container>
+                    </div>
+
                     <ion-item [hidden]="!envois && !isTransaction">
                         <ion-label position="floating">Montant</ion-label>
                         <ion-input formControlName="montant" [attr.readOnly]="isTransaction" (ionChange)="getFrais($event.target.value)"></ion-input>
                     </ion-item>
+                    <div class="validation-errors">
+                        <ng-container *ngFor="let validation of ValidationMsg.montant">
+                            <div class="error-message" *ngIf="sendForm.get('montant').hasError(validation.type) && (sendForm.get('montant').touched)">
+                                <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                            </div>
+                        </ng-container>
+                    </div>
+
                     <ion-item [hidden]="!envois">
                         <ion-row>
                             <ion-label position="floating">Frais</ion-label>
@@ -65,10 +126,6 @@
                             </ion-col>
                         </ion-row>
                     </ion-item>
-
-
-
-
                     <ion-col size="8" offset="2">
                         <ion-button type="submit" expand="block" fill="outline" [disabled]="!envois && !isTransaction">Valider</ion-button>
                     </ion-col>
