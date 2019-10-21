@@ -53,8 +53,17 @@
                         <ion-input formControlName="montant" [attr.readOnly]="isTransaction" (ionChange)="getFrais($event.target.value)"></ion-input>
                     </ion-item>
                     <ion-item [hidden]="!envois">
-                        <ion-label position="floating">Frais</ion-label>
-                        <ion-input formControlName="frais" readOnly></ion-input>
+                        <ion-row>
+                            <ion-label position="floating">Frais</ion-label>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="9">
+                                <ion-input formControlName="frais" readOnly [(ngModel)]="frais"></ion-input>
+                            </ion-col>
+                            <ion-col size="3">
+                                <ion-toggle (ionChange)="toggleFrais($event)"></ion-toggle>
+                            </ion-col>
+                        </ion-row>
                     </ion-item>
 
 

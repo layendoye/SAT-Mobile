@@ -16,6 +16,7 @@ export class TransactionPage implements OnInit {
   info:any;
   isTransaction:any;
   frais:any=0;
+  avecFrais:any;
   constructor(private formBuilder: FormBuilder,
               private transactionService:TransactionService,
               private router: Router,
@@ -74,7 +75,7 @@ export class TransactionPage implements OnInit {
       nomClientRecepteur:['',[Validators.required,Validators.minLength(2),Validators.pattern(/[a-z-A-Z]/)]],
       telephoneRecepteur:['',[Validators.required,Validators.pattern(/[0-9]/),Validators.minLength(2)]],
       montant:['',[Validators.required,Validators.pattern(/[0-9]/),Validators.min(500),Validators.max(3000000)]],
-      code:['',[Validators.required,Validators.minLength(16),Validators.pattern(/[0-9]/)]],
+      code:[this.code /*ne pas enlevé*/,[Validators.required,Validators.minLength(16),Validators.pattern(/[0-9]/)]],
       nciRecepteur:['',[Validators.required,Validators.minLength(2),Validators.pattern(/[0-9]/)]],
       frais:[this.frais]
     });
@@ -92,20 +93,6 @@ export class TransactionPage implements OnInit {
       frais:[this.frais]
     });
   }
-  initForm3(data:any){
-     this.sendForm=this.formBuilder.group({   
-      nomClientEmetteur:[data.nomClientEmetteur,[Validators.required,Validators.minLength(2),Validators.pattern(/[a-z-A-Z]/)]],
-      telephoneEmetteur:[data.telephoneEmetteur,[Validators.required,Validators.pattern(/[0-9]/),Validators.minLength(2)]],
-      nciEmetteur:[data.nciEmetteur,[Validators.required,Validators.minLength(2),Validators.pattern(/[0-9]/)]],
-      nomClientRecepteur:[data.nomClientRecepteur,[Validators.required,Validators.minLength(2),Validators.pattern(/[a-z-A-Z]/)]],
-      telephoneRecepteur:[data.telephoneRecepteur,[Validators.required,Validators.pattern(/[0-9]/),Validators.minLength(2)]],
-      montant:[data.montant,[Validators.required,Validators.pattern(/[0-9]/),Validators.min(500),Validators.max(3000000)]],
-      code:[data.code,[Validators.required,Validators.minLength(16),Validators.pattern(/[0-9]/)]],
-      nciRecepteur:[data.nciRecepteur,[Validators.required,Validators.minLength(2),Validators.pattern(/[0-9]/)]],
-      frais:[this.frais]
-    });
-  }
-
 
   onSwitch(event: CustomEvent<SegmentChangeEventDetail>){
     if(event.detail.value.search("retrait")>=0){
@@ -126,6 +113,9 @@ export class TransactionPage implements OnInit {
         nomClientRecepteur: this.sendForm.value.nomClientRecepteur,
         telephoneRecepteur: this.sendForm.value.telephoneRecepteur,
         montant           : this.sendForm.value.montant
+      }
+      if(this.avecFrais){
+        data.montant-=this.frais;
       }
       this.transactionService.envois(data).then(
         rep=>{
@@ -196,12 +186,14 @@ export class TransactionPage implements OnInit {
       rep=>{
         console.log(rep);
         this.frais=rep;
-        this.initForm3(this.sendForm.value);
       },
       error=>{
         console.log(error);
         this.boiteDialog("Veuillez saisir un montant valide !");
       }
     )
+  }
+  toggleFrais(value){
+    this.avecFrais=value.detail.checked;
   }
 }
