@@ -12,6 +12,10 @@ export class AuthService {
   user={
     id:0,
     username:'',
+    email:'',
+    nci:'',
+    nom:'',
+    telephone:'',
     roles:[],
     idEntreprise:0,
     image:'',
@@ -40,7 +44,7 @@ export class AuthService {
             this.user.username=tokenDeco.username;
             this.user.roles=tokenDeco.roles;
             this.Poste();
-            this.getUserConnecte();
+            this.userConnecte();
             this.authenticate = true;
             resolve();
           },
@@ -70,20 +74,26 @@ export class AuthService {
     this.storage.remove("user");
   }
   getUserConnecte(){
-    this.httpClient
-      .get<any>(this.urlBack+'/userConnecte')
-      .subscribe(
+    return this.httpClient.get<any>(this.urlBack+'/userConnecte')
+  }
+  userConnecte(){
+     this.getUserConnecte().subscribe(
         (rep)=>{
+          console.log(rep);
           this.user.idEntreprise=rep.entreprise.id;
           this.user.id=rep.id;
           this.user.image=rep.image;
+          this.user.email=rep.email;
+          this.user.nci=rep.nci;
+          this.user.nom=rep.nom;
+          this.user.telephone=rep.telephone;
           this.storage.set("user",this.user);
         },
         (error)=>{
           console.log('Erreur : '+error.error.message);
         }
       );
-  }
+   }
   Poste(){
     if(this.user.roles[0].search('ROLE_Super-admin')>=0 || this.user.roles[0].search('ROLE_Caissier')>=0 ){
       this.user.accessDenied=true;

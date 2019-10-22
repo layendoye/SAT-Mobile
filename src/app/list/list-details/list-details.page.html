@@ -41,10 +41,6 @@
                     <ion-label *ngIf="transaction.dateEnvoi">{{transaction.dateEnvoi | date:'dd-MM-yyyy'}}</ion-label>
                     <ion-label *ngIf="transaction.dateReception">{{transaction.dateReception | date:'dd-MM-yyyy'}}</ion-label>
                 </ion-item>
-                <ion-item>
-                    <ion-label><strong>Code : </strong> </ion-label>
-                    <ion-text>{{transaction.code}}</ion-text>
-                </ion-item>
             </ion-list>
         </ion-card-content>
     </ion-card>

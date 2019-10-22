@@ -14,8 +14,10 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AppComponent implements OnInit{
   public appPages = [
+    {title: 'Profil', url: '/profil', icon: 'contact'},
     {title: 'Historique', url: '/list', icon: 'list'},
     {title: 'Transaction', url: '/transaction', icon: 'ios-infinite'},
+    {title: 'Compte', url: '/list-compte', icon: 'grid'},
     {title: 'Déconnexion', url: '/login', icon: 'log-out'}
   ];
   authenticated=false;

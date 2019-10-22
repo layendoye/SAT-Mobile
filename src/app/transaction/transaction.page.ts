@@ -133,7 +133,7 @@ export class TransactionPage implements OnInit {
     }
     else{//si retrais
       this.transactionService.retrais(this.sendForm.value).then(
-      rep=>{
+      rep => {
         if(rep[0] && rep[0].property_path)
               this.boiteDialog(rep);
           else

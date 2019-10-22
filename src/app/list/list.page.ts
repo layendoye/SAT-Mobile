@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { TransactionService } from '../services/transaction.service';
 import { AlertController, IonItemSliding } from '@ionic/angular';
+import { SegmentChangeEventDetail } from '@ionic/core';
 
 @Component({
   selector: 'app-list',
@@ -20,7 +21,7 @@ export class ListPage implements OnInit {
   listDetails:any;
   afficherEnvois:boolean=false;
   afficherRetraits:boolean=false;
-
+  affMontant=true;
 
   histoGuichetier=false;
   constructor(private formBuilder: FormBuilder,
@@ -36,12 +37,10 @@ export class ListPage implements OnInit {
     var id="0";
     console.log(this.authService.user)
     if(this.authService.user.guichetier){
-      console.log("ooooooooooo")
       id=this.authService.user.id.toString();
       this.histoGuichetier=true
     }
     const now=new Date().toDateString();
-    console.log(now);
     this.histoForm=this.formBuilder.group({   
       dateDebut:[now,[Validators.required]],
       dateFin:[now,[Validators.required]],
@@ -122,5 +121,15 @@ export class ListPage implements OnInit {
     console.log(transaction)
     this.transactionService.detailsTransaction=transaction;
     this.router.navigate(['/list-details']);
+  }
+  onSwitch(event: CustomEvent<SegmentChangeEventDetail>){
+    if(event.detail.value.search("commission")>=0){
+      this.affMontant=false;
+      this.initForm();
+    }
+    else{
+      this.affMontant=true;
+      this.initForm();
+    }
   }
 }
